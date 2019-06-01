@@ -182,9 +182,11 @@
 ;; use paren/braces matching
 (electric-pair-mode 1)
 
+;; add local lisp directory containing random useful lisp files.
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; julia stuff
+(add-to-list 'load-path "~/.emacs.d/lisp/julia-emacs")
 (require 'julia-mode)
 (require 'julia-repl)
 (add-hook 'julia-mode-hook 'julia-repl-mode)
@@ -217,3 +219,20 @@
 ;; allow to use julia and jupyter in emacs gui
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:~/anaconda3/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin"  "~/anaconda3/bin")))
+
+;; focus on new frames
+(when (featurep 'ns)
+  (defun ns-raise-emacs ()
+    "Raise Emacs."
+    (ns-do-applescript "tell application \"Emacs\" to activate"))
+
+  (defun ns-raise-emacs-with-frame (frame)
+    "Raise Emacs and select the provided frame."
+    (with-selected-frame frame
+      (when (display-graphic-p)
+        (ns-raise-emacs))))
+
+  (add-hook 'after-make-frame-functions 'ns-raise-emacs-with-frame)
+
+  (when (display-graphic-p)
+    (ns-raise-emacs)))
