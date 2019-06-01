@@ -6,3 +6,5 @@ bookmarks
 .mc-lists.el
 ido.last
 lisp
+*.dat*
+request
