@@ -1,0 +1,319 @@
+#+AUTHOR: Nicolas Brantut
+#+TITLE: Emacs configuration
+
+* Customise file
+
+Use a separate file for custom-set-variables and custom-set-faces to avoid clutter in [[init.el]].
+
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+#+end_src
+
+* How to start emacs
+
+Start server (I will disable this temporarily):
+#+begin_src emacs-lisp
+;;(require 'server)
+;;(unless (server-running-p) (server-start))
+#+end_src
+
+Focus on new frames (this comes from [[https://korewanetadesu.com/emacs-on-os-x.html]])
+#+begin_src emacs-lisp
+(when (featurep 'ns)
+  (defun ns-raise-emacs ()
+    "Raise Emacs."
+    (ns-do-applescript "tell application \"Emacs\" to activate"))
+
+  (defun ns-raise-emacs-with-frame (frame)
+    "Raise Emacs and select the provided frame."
+    (with-selected-frame frame
+      (when (display-graphic-p)
+        (ns-raise-emacs))))
+
+  (add-hook 'after-make-frame-functions 'ns-raise-emacs-with-frame)
+
+  (when (display-graphic-p)
+    (ns-raise-emacs)))
+#+end_src
+
+
+* Open folders from emacs
+
+#+begin_src emacs-lisp
+(defun open-dir-in-finder ()
+  "Open a new Finder window to the path of the current buffer"
+  (interactive)
+  (start-process "nb-open-dir-process" nil "open" "."))
+(bind-key "C-c o f" 'open-dir-in-finder)
+#+end_src
+
+
+* Local lisp
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path (concat user-emacs-directory "lisp/"))
+#+end_src
+
+* Common lisp
+
+#+begin_src emacs-lisp
+(require 'cl)
+#+end_src
+
+* How things look
+
+** Lines 
+
+Wrap lines correctly and add line numbers (not globally so pdf view is not broken).
+#+begin_src emacs-lisp
+(global-visual-line-mode 1)
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'TeX-mode-hook 'linum-mode)
+#+end_src
+
+** Frames
+
+Double frame size and split in middle:
+#+begin_src emacs-lisp
+(defun dblframe () (interactive) (set-frame-width (selected-frame) (truncate (* 1.9 (frame-width)))) (split-window-horizontally))
+#+end_src
+
+Scale frame size and font in one go:
+#+begin_src emacs-lisp
+(defun scale-frame-and-font-up ()
+  "increase font size and frame size together"
+  (interactive)
+  (set-frame-width (selected-frame) (round (* 1.5 (frame-width))))
+  (text-scale-increase 1)
+  )
+(defun scale-frame-and-font-down ()
+  "decrease font size and frame size together"
+  (interactive)
+  (set-frame-width (selected-frame) (round (* 0.67 (frame-width))))
+  (text-scale-decrease 1)
+  )
+(global-set-key (kbd "C-+") 'scale-frame-and-font-up)
+(global-set-key (kbd "C--") 'scale-frame-and-font-down)
+#+end_src
+
+** Full screen
+
+Toggle fullscreen mode with a shortcut
+#+begin_src emacs-lisp
+(global-set-key (kbd "<C-s-268632070>") 'toggle-frame-fullscreen)
+#+end_src
+
+** PDFs
+
+Allow to use a few executables (needed to build pdf-tools)
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/lib/pkgconfig"))
+#+end_src
+
+Activate pdf-tools
+#+begin_src emacs-lisp
+(pdf-tools-install)
+#+end_src
+
+* Moving around
+
+Modifications and key bindings to move quickly but surely.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-n") '(lambda() (interactive) (next-line 5)))
+(global-set-key (kbd "M-p") '(lambda() (interactive) (next-line -5)))
+#+end_src
+
+Avoid jumpy mouse behaviour.
+
+#+begin_src emacs-lisp
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+#+end_src
+
+* Keyboard input
+
+Enter Hash symbol with normal keys.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+#+end_src
+
+use paren/braces matching
+#+begin_src emacs-lisp
+(electric-pair-mode 1)
+#+end_src
+
+* Packages
+
+Add MELPA to package list:
+
+#+begin_src emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives
+	       '("gnu" . "http://elpa.gnu.org/packages")))
+(package-initialize)
+#+end_src
+
+* Ispell
+
+I would need to modify this it does not do what I want...
+
+#+begin_src emacs-lisp
+(setq ispell-dictionary "english")
+#+end_src
+
+* YASnippets
+
+Activate yasnippets
+#+begin_src emacs-lisp
+(require 'yasnippet)
+(yas-reload-all)
+;;(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
+#+end_src
+
+* Org mode options
+
+Indent orgmode headings.
+
+#+begin_src emacs-lisp
+(setq org-startup-indented t)
+#+end_src
+
+Multi-state workflow:
+
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO" "|" "DONE" "DELEGATED")))
+#+end_src
+
+* LaTeX options
+
+Allow to use tex from emacs gui
+
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+(setq exec-path (append exec-path '("/usr/texbin")))
+#+end_src
+
+Activate RefTeX:
+
+#+begin_src emacs-lisp
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-auctex t)
+(setq reftex-default-bibliography '("~/Library/texmf/bibtex/bib/references.bib"))
+#+end_src
+
+Open references.bib very quickly and associated key bindings.
+
+#+begin_src emacs-lisp
+(defun refbibf ()
+  "open references.bib in a new frame"
+  (interactive)
+  (find-file-other-frame "~/Library/texmf/bibtex/bib/references.bib"))
+
+(defun refbib ()
+  "open references.bib in the current window"
+  (interactive)
+  (find-file "~/Library/texmf/bibtex/bib/references.bib"))
+
+(add-hook 'LaTeX-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "C-c r") 'refbibf)))
+(add-hook 'LaTeX-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "C-c b") 'refbib)))
+#+end_src
+
+Fix missing references: work in progress... I would like to read the miss refs from the output buffer and add references to the main bib file with some prefilled entries.
+
+#+begin_src emacs-lisp
+(defun import-missing-ref ()
+  "import missing references from the TeX output buffer into the current bib file"
+  (interactive)
+  ()
+    )
+#+end_src
+
+automatically update pdf view after latex compilation
+#+begin_src emacs-lisp
+(add-hook 'TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+#+end_src
+
+* Matlab mode
+
+Activate Matlab with .m files:
+
+#+begin_src emacs-lisp
+(autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
+(add-to-list
+ 'auto-mode-alist
+ '("\\.m$" . matlab-mode))
+(setq matlab-indent-function t)
+ (setq matlab-shell-command "matlab")
+#+end_src
+
+* Multiple cursors
+
+Keybindings for multiple cursors:
+
+#+begin_src emacs-lisp
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
+#+end_src
+
+* Git with magit
+
+Shortcut:
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x g") 'magit-status)
+#+end_src
+
+* Powerline
+
+Activate powerline:
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path (concat user-emacs-directory "lisp/emacs-powerline"))
+(require 'powerline)
+#+end_src
+
+* IDO mode
+
+#+begin_src emacs-lisp
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode t)
+#+end_src
+
+* Julia/Jupyter mode
+
+Activate julia mode
+#+begin_src emacs-lisp
+(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-emacs"))
+(require 'julia-mode)
+(require 'julia-repl)
+(add-hook 'julia-mode-hook 'julia-repl-mode)
+#+end_src
+
+Active ein
+#+begin_src emacs-lisp
+(require 'ein)
+(require 'ein-notebook)
+(require 'ein-subpackages)
+#+end_src
+
+Allow to use julia and jupyter in emacs gui
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:~/anaconda3/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin"  "~/anaconda3/bin")))
+#+end_src
