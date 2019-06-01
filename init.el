@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-auto-save t)
- '(TeX-electric-math (quote ("$" . "$")))
+ '(TeX-electric-math nil)
  '(TeX-parse-self t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
@@ -20,6 +20,9 @@
  '(ispell-program-name "/usr/local/bin/ispell")
  '(large-file-warning-threshold nil)
  '(org-babel-load-languages (quote ((C . t))))
+ '(package-selected-packages
+   (quote
+    (julia-repl ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex)))
  '(send-mail-function (quote smtpmail-send-it))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
@@ -180,20 +183,11 @@
 (electric-pair-mode 1)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;(add-to-list 'load-path "~/.emacs.d/lisp/julia-shell-mode/")
 
-;; allow to use julia and other stuff
-;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-;(setq exec-path (append exec-path '("/usr/local/bin")))
-
+;; julia stuff
 (require 'julia-mode)
-;(require 'julia-shell)
-
-;(defun my-julia-mode-hooks ()
-;  (require 'julia-shell-mode))
-;(add-hook 'julia-mode-hook 'my-julia-mode-hooks)
-;(define-key julia-mode-map (kbd "C-c C-c") 'julia-shell-run-region-or-line)
-;(define-key julia-mode-map (kbd "C-c C-s") 'julia-shell-save-and-go)
+(require 'julia-repl)
+(add-hook 'julia-mode-hook 'julia-repl-mode)
 
 ;;(require 'autopair)
 ;;(autopair-global-mode) ;; enable autopair in all buffers
@@ -213,3 +207,13 @@
 (require 'yasnippet)
 (yas-reload-all)
 (add-hook 'LaTeX-mode-hook #'yas-minor-mode)
+
+;; activate ein
+(require 'ein)
+(require 'ein-notebook)
+(require 'ein-subpackages)
+
+
+;; allow to use julia and jupyter in emacs gui
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:~/anaconda3/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin"  "~/anaconda3/bin")))
