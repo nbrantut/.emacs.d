@@ -55,11 +55,6 @@ Focus on new frames (this comes from [[https://korewanetadesu.com/emacs-on-os-x.
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 #+end_src
 
-* Common lisp
-
-#+begin_src emacs-lisp
-(require 'cl)
-#+end_src
 
 * How things look
 
@@ -161,7 +156,6 @@ Display emojis.
 Add MELPA to package list:
 
 #+begin_src emacs-lisp
-(require 'package)
 (add-to-list 'package-archives
 	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (when (< emacs-major-version 24)
@@ -182,7 +176,6 @@ I would need to modify this it does not do what I want...
 
 Activate yasnippets
 #+begin_src emacs-lisp
-(require 'yasnippet)
 (yas-reload-all)
 ;;(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
 #+end_src
@@ -274,7 +267,6 @@ Activate Matlab with .m files:
 Keybindings for multiple cursors:
 
 #+begin_src emacs-lisp
-(require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -289,14 +281,6 @@ Shortcut:
 (global-set-key (kbd "C-x g") 'magit-status)
 #+end_src
 
-* Powerline
-
-Activate powerline:
-
-#+begin_src emacs-lisp
-(add-to-list 'load-path (concat user-emacs-directory "lisp/emacs-powerline"))
-(require 'powerline)
-#+end_src
 
 * IDO mode
 
@@ -310,18 +294,9 @@ Activate powerline:
 
 Activate julia mode
 #+begin_src emacs-lisp
-(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-emacs"))
-(require 'julia-mode)
-(require 'julia-repl)
 (add-hook 'julia-mode-hook 'julia-repl-mode)
 #+end_src
 
-Active ein
-#+begin_src emacs-lisp
-(require 'ein)
-(require 'ein-notebook)
-(require 'ein-subpackages)
-#+end_src
 
 Allow to use julia and jupyter in emacs gui
 #+begin_src emacs-lisp
