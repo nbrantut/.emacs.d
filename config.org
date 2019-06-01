@@ -132,7 +132,7 @@ Avoid jumpy mouse behaviour.
 (setq mouse-wheel-progressive-speed nil)
 #+end_src
 
-* Keyboard input
+* Input
 
 Enter Hash symbol with normal keys.
 
@@ -140,10 +140,21 @@ Enter Hash symbol with normal keys.
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
 #+end_src
 
-use paren/braces matching
+Use paren/braces matching
 #+begin_src emacs-lisp
 (electric-pair-mode 1)
 #+end_src
+
+Display emojis. 
+#+begin_src emacs-lisp
+;;(let ((font (if (= emacs-major-version 25)
+;;                "Symbola"
+;;              (cond ((string-equal system-type "darwin")    "Apple Color Emoji")
+;;                    ((string-equal system-type "gnu/linux") "Symbola")))))
+;;  (set-fontset-font t 'unicode font nil 'prepend))
+#+end_src
+
+
 
 * Packages
 
