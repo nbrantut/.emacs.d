@@ -10,6 +10,7 @@ Use a separate file for custom-set-variables and custom-set-faces to avoid clutt
 (load custom-file)
 #+end_src
 
+
 * How to start emacs
 
 Start server (I will disable this temporarily):
@@ -45,7 +46,7 @@ Focus on new frames (this comes from [[https://korewanetadesu.com/emacs-on-os-x.
   "Open a new Finder window to the path of the current buffer"
   (interactive)
   (start-process "nb-open-dir-process" nil "open" "."))
-(bind-key "C-c o f" 'open-dir-in-finder)
+(global-set-key (kbd "C-c o f") 'scale-frame-and-font-up)
 #+end_src
 
 
@@ -104,7 +105,8 @@ Toggle fullscreen mode with a shortcut
 (global-set-key (kbd "<C-s-268632070>") 'toggle-frame-fullscreen)
 #+end_src
 
-** PDFs
+** PDF
+
 
 Allow to use a few executables (needed to build pdf-tools)
 #+begin_src emacs-lisp
