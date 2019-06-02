@@ -46,7 +46,7 @@ Focus on new frames (this comes from [[https://korewanetadesu.com/emacs-on-os-x.
   "Open a new Finder window to the path of the current buffer"
   (interactive)
   (start-process "nb-open-dir-process" nil "open" "."))
-(global-set-key (kbd "C-c o f") 'scale-frame-and-font-up)
+  (global-set-key (kbd "C-c o f") 'open-dir-in-finder)
 #+end_src
 
 
@@ -181,8 +181,9 @@ Activate yasnippets
 (require 'yasnippet)
 (yas-reload-all)
 (setq yas-snippet-dirs
-      (concat user-emacs-directory "snippets"))
+(concat user-emacs-directory "snippets"))
 (add-hook 'LaTeX-mode-hook #'yas-minor-mode)
+(add-hook 'julia-mode-hook #'yas-minor-mode)
 #+end_src
 
 * Org mode options
