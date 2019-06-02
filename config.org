@@ -178,7 +178,10 @@ I would need to modify this it does not do what I want...
 
 Activate yasnippets
 #+begin_src emacs-lisp
+(require 'yasnippet)
 (yas-reload-all)
+(setq yas-snippet-dirs
+      (concat user-emacs-directory "snippets"))
 ;;(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
 #+end_src
 
