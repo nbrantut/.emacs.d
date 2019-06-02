@@ -8,3 +8,4 @@ ido.last
 lisp
 *.dat*
 request
+config.el
