@@ -182,7 +182,7 @@ Activate yasnippets
 (yas-reload-all)
 (setq yas-snippet-dirs
       (concat user-emacs-directory "snippets"))
-;;(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
+(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
 #+end_src
 
 * Org mode options
