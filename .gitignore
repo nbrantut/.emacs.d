@@ -9,3 +9,4 @@ lisp
 *.dat*
 request
 config.el
+tests

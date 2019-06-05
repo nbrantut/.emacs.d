@@ -273,6 +273,7 @@ Activate Matlab with .m files:
 Keybindings for multiple cursors:
 
 #+begin_src emacs-lisp
+(require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -300,6 +301,10 @@ Shortcut:
 
 Activate julia mode
 #+begin_src emacs-lisp
+(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-emacs"))
+(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-repl"))
+(require 'julia-mode)
+(require 'julia-repl)
 (add-hook 'julia-mode-hook 'julia-repl-mode)
 #+end_src
 

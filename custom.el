@@ -22,7 +22,7 @@
  '(org-babel-load-languages (quote ((C . t))))
  '(package-selected-packages
    (quote
-    (julia-repl ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex)))
+    (ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
