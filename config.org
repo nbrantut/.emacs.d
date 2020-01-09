@@ -129,6 +129,12 @@ Avoid jumpy mouse behaviour.
 (setq mouse-wheel-progressive-speed nil)
 #+end_src
 
+Keybinding to move to previous window:
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x p") '(lambda() (interactive) (other-window -1)))
+#+end_src
+
 * Input
 
 Enter Hash symbol with normal keys.
@@ -179,9 +185,8 @@ I would need to modify this it does not do what I want...
 Activate yasnippets
 #+begin_src emacs-lisp
 (require 'yasnippet)
+(add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets/"))
 (yas-reload-all)
-(setq yas-snippet-dirs
-(concat user-emacs-directory "snippets"))
 (add-hook 'LaTeX-mode-hook #'yas-minor-mode)
 (add-hook 'julia-mode-hook #'yas-minor-mode)
 #+end_src
@@ -201,6 +206,27 @@ Multi-state workflow:
       '((sequence "TODO" "|" "DONE" "DELEGATED")))
 #+end_src
 
+Allow using org-more present
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path (concat user-emacs-directory "lisp/org-present"))
+(require 'org-present)
+(eval-after-load "org-present"
+  '(progn
+     (add-hook 'org-present-mode-hook
+               (lambda ()
+                 (org-present-big)
+                 (org-display-inline-images)
+                 (org-present-hide-cursor)
+                 (org-present-read-only)))
+     (add-hook 'org-present-mode-quit-hook
+               (lambda ()
+                 (org-present-small)
+                 (org-remove-inline-images)
+                 (org-present-show-cursor)
+                 (org-present-read-write)))))
+#+end_src
+
 * LaTeX options
 
 Allow to use tex from emacs gui
@@ -216,6 +242,12 @@ Activate RefTeX:
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-auctex t)
 (setq reftex-default-bibliography '("~/Library/texmf/bibtex/bib/references.bib"))
+#+end_src
+
+Do not use stupid comment behaviour
+
+#+begin_src emacs-lisp
+(setq LaTeX-syntactic-comments nil)
 #+end_src
 
 Open references.bib very quickly and associated key bindings.
@@ -303,9 +335,13 @@ Activate julia mode
 #+begin_src emacs-lisp
 (add-to-list 'load-path (concat user-emacs-directory "lisp/julia-emacs"))
 (add-to-list 'load-path (concat user-emacs-directory "lisp/julia-repl"))
+(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-cell"))
 (require 'julia-mode)
 (require 'julia-repl)
+(require 'julia-cell)
 (add-hook 'julia-mode-hook 'julia-repl-mode)
+(add-hook 'julia-mode-hook 'julia-cell-mode)
+
 #+end_src
 
 
