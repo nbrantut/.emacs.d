@@ -6,8 +6,8 @@
 Use a separate file for custom-set-variables and custom-set-faces to avoid clutter in [[init.el]].
 
 #+begin_src emacs-lisp
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file)
 #+end_src
 
 
@@ -47,6 +47,13 @@ Focus on new frames (this comes from [[https://korewanetadesu.com/emacs-on-os-x.
   (interactive)
   (start-process "nb-open-dir-process" nil "open" "."))
   (global-set-key (kbd "C-c o f") 'open-dir-in-finder)
+#+end_src
+
+* Open terminal from emacs
+
+#+begin_src emacs-lisp
+  (require 'terminal-here)
+  (global-set-key (kbd "C-c o t") 'terminal-here-launch)
 #+end_src
 
 
@@ -97,7 +104,7 @@ Scale frame size and font in one go:
 
 Toggle fullscreen mode with a shortcut
 #+begin_src emacs-lisp
-(global-set-key (kbd "<C-s-268632070>") 'toggle-frame-fullscreen)
+(global-set-key (kbd "C-s-f") 'toggle-frame-fullscreen)
 #+end_src
 
 ** PDF
@@ -232,8 +239,8 @@ Allow using org-more present
 Allow to use tex from emacs gui
 
 #+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
-(setq exec-path (append exec-path '("/usr/texbin")))
+(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
+(setq exec-path (append exec-path '("/Library/TeX/texbin")))
 #+end_src
 
 Activate RefTeX:
@@ -334,19 +341,19 @@ Shortcut:
 Activate julia mode
 #+begin_src emacs-lisp
 (add-to-list 'load-path (concat user-emacs-directory "lisp/julia-emacs"))
-(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-repl"))
-(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-cell"))
+;;(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-repl"))
+;;(add-to-list 'load-path (concat user-emacs-directory "lisp/julia-cell"))
 (require 'julia-mode)
-(require 'julia-repl)
-(require 'julia-cell)
-(add-hook 'julia-mode-hook 'julia-repl-mode)
-(add-hook 'julia-mode-hook 'julia-cell-mode)
+;;(require 'julia-repl)
+;;(require 'julia-cell)
+;;(add-hook 'julia-mode-hook 'julia-repl-mode)
+;;(add-hook 'julia-mode-hook 'julia-cell-mode)
 
 #+end_src
 
 
 Allow to use julia and jupyter in emacs gui
 #+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:~/anaconda3/bin"))
-(setq exec-path (append exec-path '("/usr/local/bin"  "~/anaconda3/bin")))
+;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:~/anaconda3/bin"))
+;;(setq exec-path (append exec-path '("/usr/local/bin"  "~/anaconda3/bin")))
 #+end_src

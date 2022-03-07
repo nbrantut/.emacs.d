@@ -12,17 +12,17 @@
    ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
  '(blink-cursor-mode t)
  '(column-number-mode t)
- '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-enabled-themes '(tango-dark))
  '(font-latex-fontify-sectioning 1.0)
- '(font-latex-match-biblatex-keywords (quote (("citep" "[[{") ("citet" "[[{"))))
+ '(font-latex-match-biblatex-keywords '(("citep" "[[{") ("citet" "[[{")))
+ '(frame-background-mode 'dark)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(inhibit-startup-screen t)
  '(ispell-program-name "/usr/local/bin/ispell")
  '(large-file-warning-threshold nil)
- '(org-babel-load-languages (quote ((C . t))))
+ '(org-babel-load-languages '((C . t)))
  '(package-selected-packages
-   (quote
-    (ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex)))
+   '(terminal-here xterm-color ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
