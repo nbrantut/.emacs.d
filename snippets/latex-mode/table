@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: table
+# key: tab
+# --
+\begin{table}
+\centering
+\caption{$2}
+\label{tab:$1}
+\begin{tabular}{$3}
+$4
+\end{tabular}
+\end{table}

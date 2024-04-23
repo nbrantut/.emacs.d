@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: two-columns-slide
+# key: col
+# --
+\begin{columns}
+  \begin{column}{${1:0.5}\textwidth}
+    $3
+  \end{column}
+  \begin{column}{${1:$(- 1 (string-to-number yas-text))}\textwidth}
+    $4
+  \end{column}
+\end{columns}

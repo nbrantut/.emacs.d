@@ -110,15 +110,15 @@ Toggle fullscreen mode with a shortcut
 ** PDF
 
 
-Allow to use a few executables (needed to build pdf-tools)
-#+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/lib/pkgconfig"))
-#+end_src
-
 Activate pdf-tools
 #+begin_src emacs-lisp
-(pdf-tools-install)
+  (setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig:/opt/homebrew/opt/glib/lib/pkgconfig")
+  (pdf-tools-install)
 #+end_src
+
+If this does not work: launch emacs from terminal to re-build (there emacs can find the right executables!)
+
+NOTE 23/04/2024: adding "setenv" etc DID NOT WORK. What I had to do is navigate to elpa/pdf-tools-dir/build/server/ and then (1) export PKG_CONFIG_PATH=..., then (2) use the ./configure (copy-paste what emacs shows in the buffer) and then (3) make etc. It looks like the environment variable is not detected via emacs. Not sure why...
 
 * Moving around
 

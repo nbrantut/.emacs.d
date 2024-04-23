@@ -22,7 +22,7 @@
  '(large-file-warning-threshold nil)
  '(org-babel-load-languages '((C . t)))
  '(package-selected-packages
-   '(terminal-here xterm-color ein yasnippet websocket skewer-mode s request pdf-tools olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex))
+   '(pdf-tools terminal-here xterm-color ein yasnippet websocket skewer-mode s request olivetti multiple-cursors magit helm deferred cl-generic auto-complete auctex))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
